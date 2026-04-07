@@ -62,6 +62,7 @@
         let qrAnimationFrame = null;
         let activeAddress = '';
         let qrCleanupTimer = null;
+        let copyResetTimer = null;
         const SVG_NS = 'http://www.w3.org/2000/svg';
         const qrImage = document.getElementById('qrImage');
         const qrHolo = document.getElementById('qrHolo');
@@ -191,9 +192,8 @@
 
             const baseR = cellSize * 0.33; // circle radius for data dots
             const count = qrModuleCount;
-            // Always dark bg, light dots (inverted in light theme too)
-            const dotColor = '#f0f0f5';
-            const bgColor = '#0e0e12';
+            const dotColor = isLight ? '#29234d' : '#f0f0f5';
+            const bgColor = isLight ? '#fbfbff' : '#0e0e12';
 
             // Update bg fill
             if (bg) {
@@ -247,13 +247,17 @@
                         const nearCursor = qrHover && qrMouseLerpX >= 0 &&
                             Math.sqrt((cx - qrMouseLerpX) ** 2 + (cy - qrMouseLerpY) ** 2) < cellSize * 3.2;
                         if (nearCursor) {
-                            color = `hsl(${mod.lastHue},100%,78%)`;
+                            color = isLight
+                                ? `hsl(${mod.lastHue},72%,36%)`
+                                : `hsl(${mod.lastHue},100%,78%)`;
                         } else {
                             // Fade each dot individually from when it was last colored
                             const age = now - (mod.coloredAt || trailFadeStart);
                             if (age < trailDuration) {
                                 const fade = Math.sqrt(1 - age / trailDuration);
-                                color = `hsl(${mod.lastHue},${Math.round(100*fade)}%,${Math.round(96-16*fade)}%)`;
+                                color = isLight
+                                    ? `hsl(${mod.lastHue},${Math.round(68 * fade)}%,${Math.round(32 + 10 * fade)}%)`
+                                    : `hsl(${mod.lastHue},${Math.round(100*fade)}%,${Math.round(96-16*fade)}%)`;
                             } else {
                                 mod.hasColor = false;
                                 color = dotColor;
@@ -349,6 +353,7 @@
                 clearTimeout(qrCleanupTimer);
                 qrCleanupTimer = null;
             }
+            resetCopyButton();
             document.getElementById('modalNetwork').textContent = network + ' \u00B7 ' + coinName;
             modalAddr.textContent = addr;
             activeAddress = addr;
@@ -368,6 +373,7 @@
             if (e && e.target !== modalOverlay) return;
             modalOverlay.classList.remove('active');
             document.body.style.overflow = '';
+            resetCopyButton();
             resetQRInteraction();
             if (qrCleanupTimer !== null) clearTimeout(qrCleanupTimer);
             qrCleanupTimer = window.setTimeout(() => {
@@ -418,12 +424,29 @@
         });
 
         // === COPY ===
+        function resetCopyButton() {
+            if (copyResetTimer !== null) {
+                clearTimeout(copyResetTimer);
+                copyResetTimer = null;
+            }
+            modalCopyBtn.classList.remove('copied');
+            modalCopyBtn.textContent = 'Copy Address';
+        }
+
         function copyAddr(addr) {
             if (!addr) return;
             const showCopiedToast = () => {
                 const t = document.getElementById('toast');
                 t.classList.add('show');
                 setTimeout(() => t.classList.remove('show'), 1500);
+                modalCopyBtn.classList.add('copied');
+                modalCopyBtn.textContent = 'Copied';
+                if (copyResetTimer !== null) clearTimeout(copyResetTimer);
+                copyResetTimer = setTimeout(() => {
+                    modalCopyBtn.classList.remove('copied');
+                    modalCopyBtn.textContent = 'Copy Address';
+                    copyResetTimer = null;
+                }, 950);
             };
 
             if (navigator.clipboard && navigator.clipboard.writeText) {
