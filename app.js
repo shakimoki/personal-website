@@ -2,6 +2,84 @@
         const saved = localStorage.getItem('theme');
         if (saved) html.setAttribute('data-theme', saved);
 
+        const translations = {
+            en: {
+                pageTitle: 'Alexei Morozov',
+                displayName: 'Alexei Morozov',
+                bio: 'crypto / investments / marketing',
+                insightsLabel: 'insights',
+                analysisTag: 'Analysis',
+                btcDate: 'Mar 27, 2026',
+                btcTitle: 'Bottom for BTC?',
+                btcDesc: 'BTC accumulation zone forecast at $40-50K. On-chain metrics, Supply in Profit/Loss, and DCA strategy breakdown.',
+                channelTag: 'Channel',
+                channelTitle: 'Telegram Channel',
+                channelDesc: 'Crypto forecasts, market analysis, and investment ideas. Join for regular updates.',
+                supportLabel: 'support',
+                modalWarning: 'Verify address and network before sending - transactions are irreversible.',
+                copyAddress: 'Copy Address',
+                copied: 'Copied',
+                languageLabel: 'Choose language',
+                themeLabel: 'Toggle theme',
+                closeQr: 'Close QR modal',
+                copyFromQr: 'Copy address from QR'
+            },
+            ru: {
+                pageTitle: 'Алексей Морозов',
+                displayName: 'Алексей Морозов',
+                bio: 'крипто / инвестиции / маркетинг',
+                insightsLabel: 'материалы',
+                analysisTag: 'Разбор',
+                btcDate: '27 мар 2026',
+                btcTitle: 'Дно по BTC?',
+                btcDesc: 'Прогноз зоны накопления BTC на $40-50K. Ончейн-метрики, Supply in Profit/Loss и разбор DCA-стратегии.',
+                channelTag: 'Канал',
+                channelTitle: 'Telegram-канал',
+                channelDesc: 'Крипто-прогнозы, рыночная аналитика и инвестиционные идеи. Подписывайтесь, чтобы следить за обновлениями.',
+                supportLabel: 'поддержать',
+                modalWarning: 'Проверьте адрес и сеть перед отправкой - криптотранзакции необратимы.',
+                copyAddress: 'Скопировать адрес',
+                copied: 'Скопировано',
+                languageLabel: 'Выбор языка',
+                themeLabel: 'Переключить тему',
+                closeQr: 'Закрыть QR-код',
+                copyFromQr: 'Скопировать адрес из QR-кода'
+            }
+        };
+        let currentLang = localStorage.getItem('lang') || 'ru';
+        function t(key) {
+            return translations[currentLang]?.[key] || translations.en[key] || key;
+        }
+        function applyLanguage(lang) {
+            currentLang = translations[lang] ? lang : 'en';
+            html.lang = currentLang;
+            localStorage.setItem('lang', currentLang);
+            document.title = t('pageTitle');
+            document.querySelectorAll('[data-i18n]').forEach((el) => {
+                const key = el.dataset.i18n;
+                el.textContent = t(key);
+            });
+            document.querySelectorAll('[data-i18n-aria-label]').forEach((el) => {
+                const key = el.dataset.i18nAriaLabel;
+                el.setAttribute('aria-label', t(key));
+            });
+            document.querySelectorAll('[data-lang-option]').forEach((button) => {
+                const active = button.dataset.langOption === currentLang;
+                button.classList.toggle('active', active);
+                button.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
+            const typedName = document.getElementById('typed-name');
+            if (typedName && !typedName.querySelector('.cursor')) typedName.textContent = t('displayName');
+            const copyButton = document.getElementById('modalCopyBtn');
+            if (copyButton) {
+                copyButton.textContent = copyButton.classList.contains('copied') ? t('copied') : t('copyAddress');
+            }
+        }
+        document.querySelectorAll('[data-lang-option]').forEach((button) => {
+            button.addEventListener('click', () => applyLanguage(button.dataset.langOption));
+        });
+        applyLanguage(currentLang);
+
         document.getElementById('themeToggle').addEventListener('click', () => {
             const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
             html.setAttribute('data-theme', next);
@@ -10,7 +88,6 @@
         });
 
         // === TYPING ===
-        const displayName = "Alexei Morozov";
         const nameEl = document.getElementById('typed-name');
         let ci = 0;
         function renderTypedName(text, showCursor = true) {
@@ -22,12 +99,13 @@
             }
         }
         function typeChar() {
+            const displayName = t('displayName');
             if (ci < displayName.length) {
                 renderTypedName(displayName.slice(0, ci + 1));
                 ci++;
                 setTimeout(typeChar, 70 + Math.random() * 50);
             } else {
-                setTimeout(() => { renderTypedName(displayName, false); }, 2500);
+                setTimeout(() => { renderTypedName(t('displayName'), false); }, 2500);
             }
         }
         setTimeout(typeChar, 400);
@@ -430,18 +508,18 @@
                 copyResetTimer = null;
             }
             modalCopyBtn.classList.remove('copied');
-            modalCopyBtn.textContent = 'Copy Address';
+            modalCopyBtn.textContent = t('copyAddress');
         }
 
         function copyAddr(addr) {
             if (!addr) return;
             const showCopiedState = () => {
                 modalCopyBtn.classList.add('copied');
-                modalCopyBtn.textContent = 'Copied';
+                modalCopyBtn.textContent = t('copied');
                 if (copyResetTimer !== null) clearTimeout(copyResetTimer);
                 copyResetTimer = setTimeout(() => {
                     modalCopyBtn.classList.remove('copied');
-                    modalCopyBtn.textContent = 'Copy Address';
+                    modalCopyBtn.textContent = t('copyAddress');
                     copyResetTimer = null;
                 }, 2200);
             };
@@ -485,7 +563,7 @@
             resize();
             initParticles();
             if (modalOverlay.classList.contains('active') && activeAddress) {
-                const displaySize = window.innerWidth < 500 ? 200 : 240;
+                const displaySize = window.innerWidth < 500 ? 232 : 288;
                 resizeQRDisplay(displaySize);
                 drawQRFrame();
             }
