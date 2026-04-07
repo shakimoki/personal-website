@@ -60,6 +60,10 @@
             position:relative;
             transition: background .5s, color .5s;
         }
+        html[lang="ru"] body {
+            font-family: 'Onest','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+            letter-spacing:-.005em;
+        }
         body::before {
             content:"";
             position:fixed;
@@ -114,8 +118,12 @@
         }
         .language-toggle {
             position:relative;
+            width:34px;
+            height:34px;
         }
         .language-globe {
+            position:relative;
+            z-index:2;
             width:34px; height:34px;
             border:0;
             border-radius:12px;
@@ -138,15 +146,30 @@
         .language-globe:active { transform: scale(.97); }
         .language-menu {
             position:absolute;
-            top:calc(100% + 8px);
+            top:0;
             right:0;
-            display:none;
-            min-width:96px;
-            padding:5px;
-            border-radius:14px;
+            z-index:1;
+            display:flex;
+            align-items:center;
+            gap:4px;
+            min-width:118px;
+            height:34px;
+            padding:3px 42px 3px 4px;
+            border-radius:12px;
             background: rgba(18,18,26,0.78);
             backdrop-filter: blur(18px) saturate(140%); -webkit-backdrop-filter: blur(18px) saturate(140%);
             border: 1px solid rgba(255,255,255,0.1);
+            opacity:0;
+            pointer-events:none;
+            overflow:hidden;
+            transform: translateX(10px) scaleX(.38);
+            transform-origin:right center;
+            transition:
+                opacity .2s ease,
+                transform .36s cubic-bezier(.22,1,.36,1),
+                background .32s ease,
+                border-color .32s ease,
+                box-shadow .32s ease;
             box-shadow:
                 inset 0 1px 0 rgba(255,255,255,0.08),
                 0 16px 34px rgba(0,0,0,0.24);
@@ -154,8 +177,9 @@
         .language-toggle:hover .language-menu,
         .language-toggle:focus-within .language-menu,
         .language-toggle.open .language-menu {
-            display:flex;
-            gap:4px;
+            opacity:1;
+            pointer-events:auto;
+            transform: translateX(0) scaleX(1);
         }
         .language-option {
             min-width:40px; height:28px;
@@ -164,9 +188,30 @@
             background: transparent;
             color: var(--text-secondary);
             cursor:pointer;
-            font: 700 10px/1 'Inter',sans-serif;
+            font-family: inherit;
+            font-size:10px;
+            font-weight:700;
+            line-height:1;
             letter-spacing:.08em;
-            transition: background .24s ease, color .24s ease, box-shadow .24s ease, transform .2s ease;
+            opacity:0;
+            transform: translateX(8px);
+            transition:
+                opacity .22s ease,
+                transform .3s cubic-bezier(.22,1,.36,1),
+                background .24s ease,
+                color .24s ease,
+                box-shadow .24s ease;
+        }
+        .language-toggle:hover .language-option,
+        .language-toggle:focus-within .language-option,
+        .language-toggle.open .language-option {
+            opacity:1;
+            transform: translateX(0);
+        }
+        .language-toggle:hover .language-option:nth-child(2),
+        .language-toggle:focus-within .language-option:nth-child(2),
+        .language-toggle.open .language-option:nth-child(2) {
+            transition-delay:.03s;
         }
         .language-option:hover {
             color: var(--text-primary);
@@ -876,7 +921,7 @@
                 0 16px 34px rgba(124,92,252,0.12);
         }
         .modal-copy-btn {
-            font-family:'Inter',sans-serif; font-size:14px; font-weight:600;
+            font-family:inherit; font-size:14px; font-weight:600;
             color:#fff;
             background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%);
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 4px 16px rgba(109,40,217,0.35);
@@ -1017,7 +1062,14 @@
         @media (max-width:500px) {
             .ticker-inner { gap:16px; font-size:11px; }
             .top-actions { top:56px; right:16px; gap:8px; }
+            .language-toggle,
             .language-globe { width:32px; height:32px; border-radius:11px; }
+            .language-menu {
+                height:32px;
+                min-width:112px;
+                padding-right:40px;
+                border-radius:11px;
+            }
             .modal { padding:30px 24px; gap:18px; border-radius:24px; }
             .modal-note { max-width: 100%; }
             .modal-qr-container { width:232px; height:232px; border-radius:22px; }
