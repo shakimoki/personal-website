@@ -190,10 +190,10 @@
             // bg is children[1] (children[0] = defs)
             const bg = qrSvg.children[1];
 
-            const baseR = cellSize * 0.33; // circle radius for data dots
+            const baseR = cellSize * 0.39; // circle radius for data dots
             const count = qrModuleCount;
             const dotColor = isLight ? '#29234d' : '#f0f0f5';
-            const bgColor = isLight ? '#fbfbff' : '#0e0e12';
+            const bgColor = isLight ? '#f2f4ff' : '#0e0e12';
 
             // Update bg fill
             if (bg) {
@@ -443,7 +443,7 @@
                     modalCopyBtn.classList.remove('copied');
                     modalCopyBtn.textContent = 'Copy Address';
                     copyResetTimer = null;
-                }, 2400);
+                }, 2200);
             };
 
             if (navigator.clipboard && navigator.clipboard.writeText) {

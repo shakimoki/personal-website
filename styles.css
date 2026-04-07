@@ -797,22 +797,31 @@
         }
         .modal-copy-btn {
             font-family:'Inter',sans-serif; font-size:14px; font-weight:600;
-            color:#fff; background: linear-gradient(135deg,#8b5cf6,#6d28d9);
-            border:none; border-radius:12px; padding:12px 32px;
-            cursor:pointer; transition: transform .28s cubic-bezier(.4,0,.2,1), box-shadow .28s ease, background .28s ease, opacity .28s ease; width:100%;
-            background-size: 220% 100%;
+            color:#fff;
+            background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 4px 16px rgba(109,40,217,0.35);
+            border:none; border-radius:12px; padding:14px 32px;
+            cursor:pointer;
+            transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+            width:100%;
         }
-        .modal-copy-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(139,92,246,.3); }
-        .modal-copy-btn:active { transform: scale(.98); }
-        .modal-copy-btn.copied {
-            background-image: linear-gradient(105deg, #7c5cfc 0%, #8b5cf6 34%, #2ebac6 50%, #8b5cf6 66%, #6d28d9 100%);
-            box-shadow: 0 10px 26px rgba(124,92,252,0.22);
+        .modal-copy-btn:hover {
+            filter: brightness(1.08);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 28px rgba(109,40,217,0.45);
             transform: translateY(-1px);
-            animation: copyButtonSweep 2.4s ease-in-out forwards;
         }
-        @keyframes copyButtonSweep {
-            0% { background-position: 105% 50%; }
-            100% { background-position: 0% 50%; }
+        .modal-copy-btn:active {
+            filter: brightness(0.92);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 2px 6px rgba(109,40,217,0.2);
+            transform: translateY(1px) scale(0.99);
+        }
+        .modal-copy-btn.copied {
+            background: linear-gradient(180deg, #2ebac6 0%, #159aa5 100%);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.22),
+                0 8px 22px rgba(46,186,198,0.22);
+            filter:none;
+            transform:none;
         }
         .modal-close {
             position:absolute; top:16px; right:16px;
@@ -906,6 +915,13 @@
                 hue-rotate(var(--qr-spin))
                 contrast(1.04)
                 brightness(1.02);
+        }
+        [data-theme="light"] .modal-qr-container svg {
+            background: #f2f4ff;
+            border: 1px solid rgba(124,92,252,0.16);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.92),
+                0 12px 26px rgba(76,64,132,0.1);
         }
         [data-theme="light"] .qr-holo {
             mix-blend-mode: soft-light;
