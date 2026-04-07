@@ -355,7 +355,7 @@
             modalOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
 
-            const displaySize = window.innerWidth < 500 ? 200 : 240;
+            const displaySize = window.innerWidth < 500 ? 232 : 288;
             resizeQRDisplay(displaySize);
             generateQR(addr);
             qrSvg.style.display = 'block';
