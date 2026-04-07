@@ -435,10 +435,7 @@
 
         function copyAddr(addr) {
             if (!addr) return;
-            const showCopiedToast = () => {
-                const t = document.getElementById('toast');
-                t.classList.add('show');
-                setTimeout(() => t.classList.remove('show'), 1500);
+            const showCopiedState = () => {
                 modalCopyBtn.classList.add('copied');
                 modalCopyBtn.textContent = 'Copied';
                 if (copyResetTimer !== null) clearTimeout(copyResetTimer);
@@ -446,11 +443,11 @@
                     modalCopyBtn.classList.remove('copied');
                     modalCopyBtn.textContent = 'Copy Address';
                     copyResetTimer = null;
-                }, 950);
+                }, 2400);
             };
 
             if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(addr).then(showCopiedToast).catch(() => {
+                navigator.clipboard.writeText(addr).then(showCopiedState).catch(() => {
                     const fallback = document.createElement('textarea');
                     fallback.value = addr;
                     fallback.setAttribute('readonly', '');
@@ -460,7 +457,7 @@
                     fallback.select();
                     document.execCommand('copy');
                     document.body.removeChild(fallback);
-                    showCopiedToast();
+                    showCopiedState();
                 });
                 return;
             }
@@ -474,7 +471,7 @@
             fallback.select();
             document.execCommand('copy');
             document.body.removeChild(fallback);
-            showCopiedToast();
+            showCopiedState();
         }
 
         // === PARTICLES (brighter) ===
