@@ -20,6 +20,7 @@
                 copyAddress: 'Copy Address',
                 copied: 'Copied',
                 languageLabel: 'Choose language',
+                languagesLabel: 'Languages',
                 themeLabel: 'Toggle theme',
                 closeQr: 'Close QR modal',
                 copyFromQr: 'Copy address from QR'
@@ -41,12 +42,13 @@
                 copyAddress: 'Скопировать адрес',
                 copied: 'Скопировано',
                 languageLabel: 'Выбор языка',
+                languagesLabel: 'Языки',
                 themeLabel: 'Переключить тему',
                 closeQr: 'Закрыть QR-код',
                 copyFromQr: 'Скопировать адрес из QR-кода'
             }
         };
-        let currentLang = localStorage.getItem('lang') || 'ru';
+        let currentLang = localStorage.getItem('lang') || 'en';
         function t(key) {
             return translations[currentLang]?.[key] || translations.en[key] || key;
         }
@@ -67,6 +69,7 @@
                 const active = button.dataset.langOption === currentLang;
                 button.classList.toggle('active', active);
                 button.setAttribute('aria-pressed', active ? 'true' : 'false');
+                button.setAttribute('aria-checked', active ? 'true' : 'false');
             });
             const typedName = document.getElementById('typed-name');
             if (typedName && !typedName.querySelector('.cursor')) typedName.textContent = t('displayName');
@@ -75,8 +78,30 @@
                 copyButton.textContent = copyButton.classList.contains('copied') ? t('copied') : t('copyAddress');
             }
         }
+        const languageToggle = document.querySelector('.language-toggle');
+        const languageTrigger = document.getElementById('languageTrigger');
+        function setLanguageMenuOpen(open) {
+            if (!languageToggle || !languageTrigger) return;
+            languageToggle.classList.toggle('open', open);
+            languageTrigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        }
+        if (languageTrigger) {
+            languageTrigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                setLanguageMenuOpen(!languageToggle.classList.contains('open'));
+            });
+        }
         document.querySelectorAll('[data-lang-option]').forEach((button) => {
-            button.addEventListener('click', () => applyLanguage(button.dataset.langOption));
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                applyLanguage(button.dataset.langOption);
+                setLanguageMenuOpen(false);
+            });
+        });
+        document.addEventListener('click', (e) => {
+            if (languageToggle && !languageToggle.contains(e.target)) {
+                setLanguageMenuOpen(false);
+            }
         });
         applyLanguage(currentLang);
 
