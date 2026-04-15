@@ -1,3 +1,21 @@
+        /* Onest restricted to Cyrillic only — Latin/digits/symbols always use Inter */
+        @font-face {
+            font-family: 'OnestCyrillic';
+            font-style: normal;
+            font-weight: 400 700;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/onest/v9/gNMKW3F-SZuj7xmS-HYoEoeyxMI.woff2) format('woff2');
+            unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+        @font-face {
+            font-family: 'OnestCyrillic';
+            font-style: normal;
+            font-weight: 400 700;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/onest/v9/gNMKW3F-SZuj7xmb-HYoEoeyxMI.woff2) format('woff2');
+            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+
         :root {
             --bg: #0e0e12;
             --bg-secondary: #16161c;
@@ -68,7 +86,7 @@
             transition: background .5s, color .5s;
         }
         html[lang="ru"] body {
-            font-family: 'Onest','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+            font-family: 'OnestCyrillic','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
             letter-spacing:-.005em;
         }
         body::before {
