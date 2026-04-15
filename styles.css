@@ -1201,6 +1201,16 @@
     padding: 4px 14px;
 }
 .cookie-reject:hover { color: var(--text-secondary); filter: none; transform: none; }
+.cookie-policy-link {
+    display: block;
+    text-align: center;
+    font-size: 10px;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-top: 2px;
+    transition: color .2s;
+}
+.cookie-policy-link:hover { color: var(--accent); }
 
 @media (max-width: 520px) {
     .cookie-banner {
