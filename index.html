@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://cdn.jsdelivr.net; connect-src https://api.coingecko.com; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://mc.yandex.ru https://mc.webvisor.com https://mc.webvisor.org https://yastatic.net; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://cdn.jsdelivr.net https://mc.yandex.ru https://mc.webvisor.com https://mc.webvisor.org; connect-src https://api.coingecko.com https://mc.yandex.ru https://mc.webvisor.com https://mc.webvisor.org wss://mc.yandex.ru wss://mc.webvisor.com wss://mc.webvisor.org; child-src blob: https://mc.yandex.ru https://mc.webvisor.com https://mc.webvisor.org; frame-src blob: https://mc.yandex.ru https://mc.webvisor.com https://mc.webvisor.org; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>Alexei Morozov</title>
 
@@ -34,8 +34,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script src="metrika.js" defer></script>
 </head>
 <body>
+    <noscript><div class="metrika-pixel"><img src="https://mc.yandex.ru/watch/108566055" alt=""></div></noscript>
     <canvas id="particles"></canvas>
 
     <div class="top-actions">

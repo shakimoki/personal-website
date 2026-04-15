@@ -48,6 +48,13 @@
             --page-glow-teal: rgba(46,186,198,0.08);
         }
         * { margin:0; padding:0; box-sizing:border-box; }
+        .metrika-pixel {
+            position:absolute;
+            left:-9999px;
+            width:1px;
+            height:1px;
+            overflow:hidden;
+        }
         body {
             font-family: 'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
             background: var(--bg);
