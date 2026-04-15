@@ -23,7 +23,13 @@
                 languagesLabel: 'Languages',
                 themeLabel: 'Toggle theme',
                 closeQr: 'Close QR modal',
-                copyFromQr: 'Copy address from QR'
+                copyFromQr: 'Copy address from QR',
+                cookieTitle: 'We use cookies',
+                cookieDesc: 'Analytics (Yandex Metrica) helps us improve the site. Necessary cookies store your theme and language preferences.',
+                cookiePolicy: 'Privacy Policy',
+                cookieAll: 'Accept all',
+                cookieNecessary: 'Necessary only',
+                cookieReject: 'Decline'
             },
             ru: {
                 pageTitle: 'Алексей Морозов',
@@ -45,7 +51,13 @@
                 languagesLabel: 'Языки',
                 themeLabel: 'Переключить тему',
                 closeQr: 'Закрыть QR-код',
-                copyFromQr: 'Скопировать адрес из QR-кода'
+                copyFromQr: 'Скопировать адрес из QR-кода',
+                cookieTitle: 'Мы используем cookies',
+                cookieDesc: 'Аналитика (Яндекс Метрика) помогает улучшать сайт. Необходимые cookies хранят настройки темы и языка.',
+                cookiePolicy: 'Политика конфиденциальности',
+                cookieAll: 'Принять все',
+                cookieNecessary: 'Только необходимые',
+                cookieReject: 'Отказаться'
             }
         };
         let currentLang = localStorage.getItem('lang') || 'en';
@@ -646,3 +658,35 @@
             requestAnimationFrame(drawParticles);
         }
         drawParticles();
+
+        // === COOKIE CONSENT ===
+        (function () {
+            const banner  = document.getElementById('cookieBanner');
+            const consent = localStorage.getItem('cookie_consent');
+
+            function hideBanner() {
+                banner.classList.add('hiding');
+                setTimeout(() => { banner.hidden = true; }, 380);
+            }
+
+            if (!consent) {
+                // Show after a short delay so page renders first
+                setTimeout(() => { banner.hidden = false; }, 800);
+            }
+
+            document.getElementById('cookieAcceptAll').addEventListener('click', () => {
+                localStorage.setItem('cookie_consent', 'all');
+                hideBanner();
+                if (typeof window.initMetrika === 'function') window.initMetrika();
+            });
+
+            document.getElementById('cookieNecessary').addEventListener('click', () => {
+                localStorage.setItem('cookie_consent', 'necessary');
+                hideBanner();
+            });
+
+            document.getElementById('cookieReject').addEventListener('click', () => {
+                localStorage.setItem('cookie_consent', 'rejected');
+                hideBanner();
+            });
+        })();

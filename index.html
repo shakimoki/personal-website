@@ -37,7 +37,7 @@
     <script src="metrika.js" defer></script>
 </head>
 <body>
-    <noscript><div class="metrika-pixel"><img src="https://mc.yandex.ru/watch/108566055" alt=""></div></noscript>
+    <!-- noscript pixel removed: users without JS cannot give consent -->
     <canvas id="particles"></canvas>
 
     <div class="top-actions">
@@ -189,6 +189,24 @@
             </div>
             <div class="modal-addr" id="modalAddr" role="button" tabindex="0" aria-label="Copy address" data-i18n-aria-label="copyAddress"></div>
             <button class="modal-copy-btn" id="modalCopyBtn" type="button" data-i18n="copyAddress">Copy Address</button>
+        </div>
+    </div>
+
+    <!-- COOKIE BANNER -->
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookies" aria-live="polite" hidden>
+        <div class="cookie-inner">
+            <div class="cookie-text">
+                <span class="cookie-icon" aria-hidden="true">🍪</span>
+                <div>
+                    <p class="cookie-title" data-i18n="cookieTitle">Мы используем cookies</p>
+                    <p class="cookie-desc" data-i18n="cookieDesc">Аналитика (Яндекс Метрика) помогает улучшать сайт. Необходимые cookies хранят ваши настройки темы и языка. <a href="privacy.html" class="cookie-link" data-i18n="cookiePolicy">Политика конфиденциальности</a></p>
+                </div>
+            </div>
+            <div class="cookie-actions">
+                <button class="cookie-btn cookie-all" id="cookieAcceptAll" type="button" data-i18n="cookieAll">Принять все</button>
+                <button class="cookie-btn cookie-necessary" id="cookieNecessary" type="button" data-i18n="cookieNecessary">Только необходимые</button>
+                <button class="cookie-btn cookie-reject" id="cookieReject" type="button" aria-label="Отказаться" data-i18n="cookieReject">Отказаться</button>
+            </div>
         </div>
     </div>
 
