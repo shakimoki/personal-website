@@ -25,11 +25,11 @@
                 closeQr: 'Close QR modal',
                 copyFromQr: 'Copy address from QR',
                 cookieTitle: 'We use cookies',
-                cookieDesc: 'Analytics helps us improve the site. Necessary cookies store your theme and language preferences.',
+                cookieDesc: 'Helps us understand what content you enjoy. Anonymous, never sold.',
                 cookiePolicy: 'Privacy Policy',
                 cookieAll: 'Accept all',
                 cookieNecessary: 'Necessary only',
-                cookieReject: 'Decline'
+                cookieReject: 'Not now'
             },
             ru: {
                 pageTitle: 'Алексей Морозов',
@@ -53,11 +53,11 @@
                 closeQr: 'Закрыть QR-код',
                 copyFromQr: 'Скопировать адрес из QR-кода',
                 cookieTitle: 'Мы используем cookies',
-                cookieDesc: 'Аналитика помогает улучшать сайт. Необходимые cookies хранят настройки темы и языка.',
+                cookieDesc: 'Помогает понять, какой контент вам интересен. Анонимно, данные не продаются.',
                 cookiePolicy: 'Политика конфиденциальности',
                 cookieAll: 'Принять все',
                 cookieNecessary: 'Только необходимые',
-                cookieReject: 'Отказаться'
+                cookieReject: 'Не сейчас'
             }
         };
         let currentLang = localStorage.getItem('lang') || 'en';
@@ -670,8 +670,21 @@
             }
 
             if (!consent) {
-                // Show after a short delay so page renders first
-                setTimeout(() => { banner.hidden = false; }, 800);
+                // Show after scroll engagement (30% down) OR 4s — whichever comes first
+                let shown = false;
+                function showBanner() {
+                    if (shown) return;
+                    shown = true;
+                    window.removeEventListener('scroll', onScroll);
+                    banner.hidden = false;
+                    // Auto-focus Accept so Enter key accepts
+                    setTimeout(() => document.getElementById('cookieAcceptAll').focus(), 50);
+                }
+                function onScroll() {
+                    if (window.scrollY > document.body.scrollHeight * 0.28) showBanner();
+                }
+                window.addEventListener('scroll', onScroll, { passive: true });
+                setTimeout(showBanner, 4000);
             }
 
             document.getElementById('cookieAcceptAll').addEventListener('click', () => {
